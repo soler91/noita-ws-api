@@ -238,13 +238,13 @@ insert_constant{
     spawn_item("data/entities/items/pickup/spell_refresh.xml", 0, 10) 
   end
 }
-shieldrad = 10
+
 insert_constant{
   name = "6 Shields... WHAT!?",
   desc = "but projectiles hit like a truck :)",
   func = function()
     local player = get_player()
-    
+    local shieldrad = tonumber(GlobalsGetValue("twitch_shieldsize", "10"))
     for i=1,6 do
       local x, y = get_player_pos()
       local shield = EntityLoad( "data/entities/misc/perks/shield.xml", x, y )
@@ -255,9 +255,11 @@ insert_constant{
         end
       local energy_shield = EntityGetFirstComponent( shield, "EnergyShieldComponent" );
         ComponentSetValue( energy_shield, "radius", tostring( shieldrad ) );
+	ComponentSetValue( energy_shield, "recharge_speed", "0.015" );
       if shield ~= nil then EntityAddChild( player, shield ); end
       shieldrad = shieldrad + 2
     end
+    GlobalsSetValue("twitch_shieldsize", tostring(shieldrad))
     local damagemodels = EntityGetComponent( player, "DamageModelComponent" )
 			if( damagemodels ~= nil ) then
 				for i,damagemodel in ipairs(damagemodels) do
