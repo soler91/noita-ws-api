@@ -13,6 +13,9 @@ luajit's FFI in order to act as a websocket client.
 the *32 bit* `pollws.dll` into your Noita install dir (so it should be in the same directory as `Noita.exe`). You don't need
 to care about the includes, bindings, or `.lib` files-- only the `.dll` is needed.
 
+* Copy the `TwitchIntegration` directory into `{your_Noita_install_dir}/mods/`: you should end up with a file in
+`{your_Noita_install_dir}/mods/TwitchIntegration/mod.xml`.
+
 * Copy the `mod_ws_api` directory into `{your_Noita_install_dir}/mods/`: you should end up with a file in
 `{your_Noita_install_dir}/mods/mod_ws_api/mod.xml`.
 
