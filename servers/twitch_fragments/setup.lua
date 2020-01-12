@@ -1,21 +1,34 @@
 twitch_display_lines = {}
 gui = gui or GuiCreate()
-xpos = xpos or 80
-ypos = ypos or 30
-randomOnNoVotes = false
+xpos = xpos or 1
+ypos = ypos or 12
+randomOnNoVotes = true
 math.randomseed(os.time())
 
 function draw_twitch_display()
   GuiStartFrame( gui )
-  GuiLayoutBeginVertical( gui, xpos, ypos )
-  for idx, line in ipairs(twitch_display_lines) do
-    GuiText(gui, 0, 0, line)
+  local player = get_player()
+  if player ~=nil then
+    local inven_gui = EntityGetFirstComponent(player, "InventoryGuiComponent")
+    if inven_gui ~= nil then
+      local is_open = ComponentGetValue(inven_gui, "mActive")
+
+      if is_open == "1" then
+          GuiLayoutBeginHorizontal( gui, xpos, 97 )
+        else
+          GuiLayoutBeginVertical( gui, xpos, ypos )
+      end
+    end
+    
+    for idx, line in ipairs(twitch_display_lines) do
+      GuiText(gui, 0, 0, line)
+    end
+    GuiLayoutEnd( gui )
   end
-  GuiLayoutEnd( gui )
 end
 
 function set_countdown(timeleft)
-  twitch_display_lines = {"Next vote: " .. timeleft .. "s"}
+  twitch_display_lines = {"Next vote: " .. timeleft .. "s, "}
 end
 
 outcomes = {}
@@ -46,11 +59,11 @@ function draw_outcomes(n)
 end
 
 function update_outcome_display(vote_time_left)
-  twitch_display_lines = {"Voting ends: " .. vote_time_left}
+  twitch_display_lines = {"Voting ends: " .. vote_time_left .. ", "}
   for idx, outcome in ipairs(outcomes) do
     table.insert(
       twitch_display_lines,
-      ("%d> %s (%d)"):format(idx, outcome.name, outcome.votes) 
+      ("| %d> %s (%d)"):format(idx, outcome.name, outcome.votes) 
     )
   end
 end
