@@ -14,7 +14,7 @@ const wss = new ws.Server({ port: WS_PORT });
 console.log("WS listening on " + WS_PORT);
 
 let noita = null;
-
+let lastContact = 0;
 function getConnectionName(ws) {
   return ws._socket.remoteAddress + ":" + ws._socket.remotePort;
 }
@@ -60,10 +60,11 @@ wss.on('connection', function connection(ws) {
     }
 
     if (jdata["kind"] === "heartbeat") {
+      lastContact = Date.now()
       if (noita != ws) {
         console.log("Registering noita!");
         noita = ws;
-        ws.send(`GamePrint('WS connected as ${cname}')`);
+        ws.send(`GamePrint('Twitch Integration Connected.')`);
         ws.send("set_print_to_socket(true)");
         noitaDoFile("twitch_fragments/setup.lua");
         noitaDoFile("twitch_fragments/potion_material.lua");
@@ -133,9 +134,12 @@ async function doQuestion() {
     if (noita == null) {
       return;
     }
-    noita.send(`set_votes{${getVotes().join(",")}}`);
-    noita.send(`update_outcome_display(${timeleft})`);
-    timeleft -= 1;
+    let unpaused = Date.now() - lastContact < 3000
+    if (unpaused) {
+      noita.send(`set_votes{${getVotes().join(",")}}`);
+      noita.send(`update_outcome_display(${timeleft})`);
+      timeleft -= 1;
+    }
     await sleep(1);
   }
   if (noita == null) {
