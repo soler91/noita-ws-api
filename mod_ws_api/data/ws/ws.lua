@@ -1,3 +1,4 @@
+dofile("data/scripts/perks/perk.lua")
 local HOST_URL = "ws://localhost:9090"
 
 if not async then
