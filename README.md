@@ -27,7 +27,11 @@ it loses focus, which is very convenient when using the console. Enable this mod
 
 ## Installation (example servers)
 
-The example servers run on nodejs, so get nodejs installed, and then
+The example servers run on [nodejs](https://nodejs.org/en/), so get nodejs installed, and then
+
+open `install.bat` file and wait, then run `start_twitch.bat` after setting up your .env file
+
+or
 ```
 cd {the_example_servers_dir}
 npm install
