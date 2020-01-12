@@ -67,6 +67,7 @@ wss.on('connection', function connection(ws) {
         ws.send(`GamePrint('Twitch Integration Connected.')`);
         ws.send("set_print_to_socket(true)");
         noitaDoFile("twitch_fragments/setup.lua");
+        noitaDoFile("twitch_fragments/utils.lua");
         noitaDoFile("twitch_fragments/potion_material.lua");
         noitaDoFile("twitch_fragments/outcomes.lua");
       }
