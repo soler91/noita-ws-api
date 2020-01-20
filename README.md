@@ -1,10 +1,8 @@
-![Screenshot of the example webconsole being used to print an "important" game message](/screenshot.jpg?raw=true)
-
 # noita-ws-api
 Websocket based API to Noita: allows Noita to connect through a websocket to a server, which can then execute
 arbitrary Lua within Noita's environment.
 
-## Installation (mod / API host)
+## Installation
 
 The mod dynamically links the [pollws](https://github.com/probable-basilisk/pollws) library through 
 luajit's FFI in order to act as a websocket client.
@@ -24,56 +22,3 @@ you understand what that means and the risks involved.
 
 * (optional) Copy the `mod_dev_settings` directory into your mods dir. This mod disables Noita from pausing when
 it loses focus, which is very convenient when using the console. Enable this mod also in the Noita mods menu.
-
-## Installation (example servers)
-
-The example servers run on [nodejs](https://nodejs.org/en/), so get nodejs installed, and then
-
-open `install.bat` file and wait, then run `start_twitch.bat` after setting up your .env file
-
-or
-```
-cd {the_example_servers_dir}
-npm install
-```
-
-## Example: webconsole
-From the `servers` directory, run:
-```
-node main_console.js
-```
-
-A web browser window should automatically open to a Noita webconsole. Start up Noita (with `mod_ws` enabled),
-and then you can directly execute Lua commands from the webconsole. For example, try:
-
-```Lua
-hello()
-GamePrintImportant("Big Message", "Sub Message")
-print_entity_info(get_player())
-help("EntityGetTransform")
-```
-
-Note that there is rudimentary command completion with <kbd>Tab</kbd>, and that
-you can get help (if available) for Noita's API with `help("command")` or 
-simply `command?`.
-
-## Example: twitch interaction
-From the `servers` directory, run:
-```
-node main_twitch.js your_twitch_channel_name
-```
-
-Then start up Noita. You should see a voting thingy on the right side--
-users in the specified twitch channel can type the appropriate numbers
-to vote on things to happen in your game.
-
-You can also create a .env file in your `servers`, to setup a default twitch account name to use, and the time for voting. See `servers/.env.example` for reference
-
-## API Overview
-
-The `mod_ws` mod acts as a websocket client, and automatically tries to connect to `ws://localhost:9090`.
-
-* Websocket messages sent *TO* Noita are treated as raw Lua source and directly executed as Lua
-* Noita will reply with two kinds of messages: JSON payloads, and raw strings. Raw strings are
-prefixed with `>`. Approximately every second Noita will send a heartbeat message, in JSON, of the
-form `{"kind": "heartbeat", "source": "noita"}`.
