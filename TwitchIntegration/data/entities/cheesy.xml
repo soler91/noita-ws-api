@@ -1,4 +1,4 @@
-<Entity name="twitch_dryspell" tags="twitch_dryspell">
+<Entity name="twitch_dryspell" tags="twitch_cheesy">
 	<InheritTransformComponent
         _tags="enabled_in_hand"
         use_root_parent="1">
@@ -9,14 +9,14 @@
     </InheritTransformComponent>
 	
 	<MagicConvertMaterialComponent
-      kill_when_finished="0"
-      from_material_tag="[liquid]"
-      steps_per_frame="10"
-      to_material="air"
+      kill_when_finished="1"
+      from_any_material="1"
+      steps_per_frame="32"
+      to_material="cheese_static"
       clean_stains="0"
       is_circle="1"
-      radius="32" 
-	  loop="1"
+      radius="512" 
+	  loop="0"
 	  >
     </MagicConvertMaterialComponent>
 </Entity>
