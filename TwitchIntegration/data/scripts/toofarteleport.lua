@@ -1,19 +1,14 @@
---credits to evaisa for making this
-dofile( "data/scripts/lib/utilities.lua" )
-
-local theEntity = GetUpdatedEntityID()
-
-local thePlayer = get_players()[1]
-
-local x, y, r, s1, s2 = EntityGetTransform( theEntity )
-
-local playerX, playerY = EntityGetTransform( thePlayer )
-
-local headingX = x - playerX
-local headingY = y - playerY
-
-local len = math.sqrt((headingX*headingX) + (headingY*headingY))
-
-if(len > 500)then
-	EntitySetTransform( theEntity, playerX, playerY, r, s1, s2 )
+dofile( "data/scripts/lib/utilities.lua" );
+local entity = GetUpdatedEntityID();
+local players = EntityGetWithTag( "player_unit" ) or {};
+if #players > 0 then
+    local player = players[1];
+    local x, y = EntityGetTransform( entity );
+    local px, py = EntityGetTransform( player );
+    local dx, dy = px - x, py - y;
+    local distance_squared = dx * dx + dy * dy;
+    -- 256 * 256 = 65536
+    if distance_squared > 65536 then
+        EntitySetTransform( entity, px, py );
+    end
 end
